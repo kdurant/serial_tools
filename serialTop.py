@@ -12,8 +12,8 @@ class serialTop(SerialUI):
     def __init__(self):
         super(serialTop, self).__init__()
         self.com = QSerialPort()
-        self.recvBytes = 0
-        self.sendBytes = 0
+        self.recvCnt = 0
+        self.sendCnt = 0
 
         self.detectSerialStatus()
         self.signalSlot()
@@ -28,6 +28,8 @@ class serialTop(SerialUI):
         self.openBtn.clicked.connect(self.openCom)
         self.closeBtn.clicked.connect(self.closeCom)
         self.com.readyRead.connect(self.recvData)
+        self.clearRecvBtn.clicked.connect(self.clearRecvData)
+        self.saveRecvBtn.clicked.connect(self.saveRecvData)
 
     @pyqtSlot()
     def openCom(self):
@@ -37,16 +39,18 @@ class serialTop(SerialUI):
         try:
             if self.com.open(QSerialPort.ReadWrite) == False:
                 QMessageBox.critecla(self, '打开失败', '该串口不存在或已被占用')
+                self.bar0.setText('串口状态: ' + '关闭')
                 return
             else:
                 self.openBtn.setEnabled(False)
                 self.closeBtn.setEnabled(True)
+                self.bar0.setText('串口状态: ' + '打开')
+
                 return
         except:
             QMessageBox.critical(self, '打开失败', '该串口不存在或已被占用')
             return
         self.com.setBaudRate(comBaud)
-
 
     @pyqtSlot()
     def closeCom(self):
@@ -54,13 +58,50 @@ class serialTop(SerialUI):
             self.com.close()
             self.openBtn.setEnabled(True)
             self.closeBtn.setEnabled(False)
+            self.bar0.setText('串口状态: ' + '关闭')
 
     @pyqtSlot()
     def recvData(self):
         try:
             recvData = bytes(self.com.readAll())
+            self.recvCnt += len(recvData)
+            if self.hexDisplayCb.isChecked():
+                data = recvData
+            else:
+                data = recvData
         except:
             QMessageBox.critical(self, '错误', '串口接收错误')
+
+        if not self.pauseReceiveCb.isChecked():
+            if self.autoWrapCb.isChecked():
+                self.recvText.append(data + '\n')
+            else:
+                self.recvText.append(data)
+
+    @pyqtSlot()
+    def sendData(self):
+        data = self.sendEdit.text()
+        if len(data) == 0:
+            return
+        if self.hexSendCb.isChecked():
+            data = data
+            n = self.com.write(data)
+        else:
+            n = self.com.write(data)
+        self.sendCnt += n
+
+    @pyqtSlot()
+    def clearRecvData(self):
+        self.recvText.clear()
+
+    @pyqtSlot()
+    def saveRecvData(self):
+        filename = QFileDialog.getSaveFileName(self, 'save', 'serial.txt')
+        try:
+            with open(filename[0], 'w') as f:
+                f.write(self.recvText.toPlainText())
+        except:
+            pass
 
     def showExtendUI(self):
         if self.extendUI.isHidden():
@@ -68,6 +109,8 @@ class serialTop(SerialUI):
         else:
             self.extendUI.hide()
         pass
+
+
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)

@@ -1,5 +1,4 @@
-QPushButton#openBtn:enabled 
-{
+QPushButton#openBtn:enabled {
     background: rgb(0, 255, 0);
 }
 QPushButton#openBtn:!enabled 
@@ -46,4 +45,12 @@ font-size: 12px;
 background: rgb(153, 196, 149);
 border-radius: 2px;
 margin-top: 10px;
+}
+
+QCheckBox:enabled:checked{
+        color: cyan;
+}
+
+QLabel#bar0{
+        color: rgb(128, 128, 192);
 }

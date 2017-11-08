@@ -22,6 +22,10 @@ class SerialUI(QMainWindow):
         self.setWindowIcon(QIcon('images/serialIcon.svg'))
         self.initUI()
         self.createToolBar()
+        self.createStatusBar()
+
+        self.helpWidget = QWidget()
+        self.helpWidget.hide()
 
     def initUI(self):
         serialInfo = self.serialParaUI()
@@ -54,11 +58,24 @@ class SerialUI(QMainWindow):
         self.setCentralWidget(widget)
 
     def createToolBar(self):
-        self.new = QAction(QIcon('images/high.svg'), "extend", self, triggered=self.showExtendUI)
+        self.highAction = QAction(QIcon('images/high.svg'), "extend", self, triggered=self.showExtendUI)
+        self.helpAction = QAction(QIcon('images/help.svg'), "help", self, triggered=self.showHelpWidget)
         toolbar = self.addToolBar('T')
         # new = QAction(QIcon("./images/new.png"), "new", self)
-        toolbar.addAction(self.new)
+        toolbar.addAction(self.highAction)
+        toolbar.addAction(self.helpAction)
 
+    def createStatusBar(self):
+        self.statusBar = QStatusBar()
+        self.bar0 = QLabel()
+        self.bar1 = QLabel()
+        self.bar2 = QLabel()
+        self.bar3 = QLabel()
+        self.statusBar.addWidget(self.bar0, 1)
+        self.statusBar.addWidget(self.bar1, 1)
+        self.statusBar.addWidget(self.bar2, 1)
+        self.statusBar.addWidget(self.bar3, 1)
+        self.setStatusBar(self.statusBar)
 
     def serialParaUI(self):
         self.serialNumComb = QComboBox()
@@ -91,32 +108,36 @@ class SerialUI(QMainWindow):
     def recvConfigUI(self):
         self.writeDataToFileCb = QCheckBox('接受数据写入文件')
         self.autoWrapCb = QCheckBox('自动换行')
+        self.autoWrapCb.setChecked(True)
         self.hexDisplayCb = QCheckBox('HEX显示')
         self.pauseReceiveCb = QCheckBox('暂停接受')
-        self.saveBtn = QPushButton('保存数据')
-        self.clearBtn = QPushButton('清除显示')
+        self.saveRecvBtn = QPushButton('保存数据')
+        self.saveRecvBtn.setToolTip('保存当前接受数据区的数据')
+        self.clearRecvBtn = QPushButton('清除显示')
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.writeDataToFileCb)
         vbox.addWidget(self.autoWrapCb)
         vbox.addWidget(self.hexDisplayCb)
         vbox.addWidget(self.pauseReceiveCb)
-        vbox.addWidget(self.saveBtn)
-        vbox.addWidget(self.clearBtn)
+        vbox.addWidget(self.saveRecvBtn)
+        vbox.addWidget(self.clearRecvBtn)
 
         groupBox = QGroupBox('接受设置')
         groupBox.setLayout(vbox)
         return groupBox
 
     def sendConfigUI(self):
-        self.loadFileBtn = QPushButton('发送文件')
-        self.hexSendBtn = QCheckBox('HEX发送')
+        self.loadFileBtn = QPushButton('选择文件')
+        self.hexSendCb = QCheckBox('HEX发送')
         self.timeSendCb = QCheckBox('定时发送ms：')
+        self.sendBtn = QPushButton('发送')
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.loadFileBtn)
-        vbox.addWidget(self.hexSendBtn)
+        vbox.addWidget(self.hexSendCb)
         vbox.addWidget(self.timeSendCb)
+        vbox.addWidget(self.sendBtn)
 
         groupBox = QGroupBox('发送设置')
         groupBox.setLayout(vbox)
@@ -133,9 +154,9 @@ class SerialUI(QMainWindow):
         return groupBox
 
     def sendDataUI(self):
-        self.sendText = QLineEdit()
+        self.sendEdit = QLineEdit()
         vbox = QVBoxLayout()
-        vbox.addWidget(self.sendText)
+        vbox.addWidget(self.sendEdit)
 
         groupBox = QGroupBox('发送数据区')
         groupBox.setLayout(vbox)
@@ -144,10 +165,16 @@ class SerialUI(QMainWindow):
     def showExtendUI(self):
         if self.extendUI.isHidden():
             self.extendUI.show()
-            print(self.extendUI.isHidden())
         else:
             self.extendUI.hide()
-        pass
+
+    def showHelpWidget(self):
+        # self.helpWidget.show()
+        if self.helpWidget.isHidden():
+            self.helpWidget.show()
+        else:
+            self.helpWidget.hide()
+
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
