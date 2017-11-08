@@ -53,6 +53,9 @@ class SerialUI(QMainWindow):
         mainLayout.addLayout(leftLayout)
         mainLayout.addLayout(highLayout)
 
+        mainLayout.setStretchFactor(rightLayout, 1)
+        mainLayout.setStretchFactor(leftLayout, 3)
+        mainLayout.setStretchFactor(highLayout, 1)
         widget = QWidget()
         widget.setLayout(mainLayout)
         self.setCentralWidget(widget)

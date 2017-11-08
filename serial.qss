@@ -48,7 +48,7 @@ margin-top: 10px;
 }
 
 QCheckBox:enabled:checked{
-        color: cyan;
+        color: rgb(128, 128, 255);
 }
 
 QLabel#bar0{
