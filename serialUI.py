@@ -53,7 +53,6 @@ class SerialUI(QMainWindow):
         mainLayout.addLayout(leftLayout)
         mainLayout.addLayout(highLayout)
 
-        mainLayout.setStretchFactor(rightLayout, 1)
         mainLayout.setStretchFactor(leftLayout, 3)
         mainLayout.setStretchFactor(highLayout, 1)
         widget = QWidget()
@@ -101,10 +100,17 @@ class SerialUI(QMainWindow):
         formLayout.addRow('校验位：', self.serialCheckComb)
         formLayout.addRow('数据位：', self.serialDataLenComb)
         formLayout.addRow('停止位：', self.serialStopComb)
-        formLayout.addRow(self.openBtn, self.closeBtn)
+
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.openBtn)
+        hbox.addWidget(self.closeBtn)
+
+        mainLayout = QVBoxLayout()
+        mainLayout.addLayout(formLayout)
+        mainLayout.addLayout(hbox)
 
         groupBox = QGroupBox('串口设置')
-        groupBox.setLayout(formLayout)
+        groupBox.setLayout(mainLayout)
 
         return groupBox
 

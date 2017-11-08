@@ -1,19 +1,23 @@
-QPushButton#openBtn:enabled {
-    background: rgb(0, 255, 0);
+
+QPushButton {
+background-color: #473C8B;
+border-style: outset;
+border-width: 2px;
+border-radius: 5px;
+border-color: #8B7355;
+font: bold 14px;
+min-width:2em;
+color:white;
+font-family:华文新魏;
+padding: 5px;
 }
-QPushButton#openBtn:!enabled 
-{
-    background: red;
+QPushButton:pressed {
+background-color: #1E90FF;
+border-style: inset;
 }
-/*
-QPushButton:enabled:hover
-{
-    background: rgb(100, 160, 220);
-}
-*/
-QPushButton:enabled:pressed
-{
-    background: rgb(0, 78, 161);
+QPushButton:!enabled{
+background-color: rgb(100, 100, 100);
+border-style: inset;
 }
 
 QComboBox
@@ -24,18 +28,19 @@ border: 1px solid green;
 /*background: green;*/
 }
 
-QGroupBox 
+QGroupBox
 {
 font-size: 12px;
-border: 1px solid rgb(111, 156, 207);
-border-radius: 2px;
-margin-top: 10px;
+background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0#E0E0E0, stop: 1 #FFFFFF);
+border:2px solid gray;
+border-radius:5px;
+margin-top:10px;
 }
-QGroupBox::title 
-{
-color: rgb(56, 99, 154);
-top: -6px;
-left: 10px;
+QGroupBox::title {
+subcontrol-origin: margin;
+subcontrol-position: top center;/* position at the top center */
+padding:03px;
+background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0#FF0ECE, stop: 1 #FFFFFF);
 }
 
 
@@ -53,4 +58,10 @@ QCheckBox:enabled:checked{
 
 QLabel#bar0{
         color: rgb(128, 128, 192);
+}
+
+QToolTip {
+    background-color: #000000;
+    border: 2px solid #333333;
+    color: yellow;
 }

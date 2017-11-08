@@ -21,6 +21,8 @@ class MutilString(QWidget):
 
         grid = QGridLayout()
         for i in range(0, 8):
+            self.selCbList.append(QCheckBox())
+            self.hexEditList.append(QLineEdit())
             btn = QPushButton(str(i))
             btn.setFixedWidth(30)
             self.sendBtnList.append(btn)
