@@ -65,7 +65,6 @@ class serialTop(SerialUI):
     def showExtendUI(self):
         if self.extendUI.isHidden():
             self.extendUI.show()
-            print(self.extendUI.isHidden())
         else:
             self.extendUI.hide()
         pass

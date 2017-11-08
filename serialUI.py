@@ -11,6 +11,15 @@ from extendFunction import *
 class SerialUI(QMainWindow):
     def __init__(self):
         super(SerialUI, self).__init__()
+        try:
+            qss = open('serial.qss').read()
+            self.setStyleSheet(qss)
+        except:
+            pass
+
+        self.resize(800, 500)
+        self.setWindowTitle('串口调试工具')
+        self.setWindowIcon(QIcon('images/serialIcon.svg'))
         self.initUI()
         self.createToolBar()
 
@@ -62,6 +71,7 @@ class SerialUI(QMainWindow):
         self.serialStopComb = QComboBox()
         self.serialStopComb.addItems(['1'])
         self.openBtn = QPushButton('打开串口')
+
         self.closeBtn = QPushButton('关闭串口')
         self.closeBtn.setEnabled(False)
 
@@ -75,6 +85,7 @@ class SerialUI(QMainWindow):
 
         groupBox = QGroupBox('串口设置')
         groupBox.setLayout(formLayout)
+
         return groupBox
 
     def recvConfigUI(self):
