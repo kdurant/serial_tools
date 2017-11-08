@@ -8,9 +8,9 @@ from PyQt5.QtSerialPort import *
 
 from extendFunction import *
 
-class serialUI(QMainWindow):
+class SerialUI(QMainWindow):
     def __init__(self):
-        super(serialUI, self).__init__()
+        super(SerialUI, self).__init__()
         self.initUI()
         self.createToolBar()
 
@@ -140,7 +140,7 @@ class serialUI(QMainWindow):
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
-    ui = serialUI()
+    ui = SerialUI()
     # ui = selectFile()
     ui.show()
     sys.exit(app.exec_())
