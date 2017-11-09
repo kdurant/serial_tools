@@ -3,7 +3,7 @@
 # from PyQt5.QtGui import *
 # from PyQt5.QtWidgets import *
 # from PyQt5.QtSerialPort import *
-from binascii import a2b_hex
+from binascii import a2b_hex, b2a_hex
 from serialUI import *
 from extendFunction import *
 
@@ -67,21 +67,44 @@ class serialTop(SerialUI):
 
     @pyqtSlot()
     def recvData(self):
+        '''
+        当以非HEX方式发送数据时：
+        发送 '12' : 收到的是 b'1', b'2'
+        发送 '中文' : 收到的是 b'\xe4\xb8\xad', b'\xe6\x96\x87'
+        可得出结论，发送数据为 s.encode('utf')
+        接收到数据时，recv_s.decode('utf8')即可正确显示
+
+        当以HEX方式发送数据时：
+        发送 'ab' : 收到 b'\xab'
+        :return:
+        '''
         try:
             recvData = bytes(self.com.readAll())
             self.recvCnt += len(recvData)
-            if self.hexDisplayCb.isChecked():
-                data = recvData
+            self.recvCntBar.setText('发送字节：' + str(self.recvCnt))
+
+            if self.hexSendCb.isChecked():
+                if self.hexDisplayCb.isChecked():
+                    data = b2a_hex(recvData)
+                    data = data.decode('utf8')
+                else:
+                    data = b2a_hex(recvData)
+                    data = data.decode('utf8')
+                    data = ''.join([str(ord(i)) for i in data])     # '34' -> '33 34'
             else:
-                data = recvData
+                if self.hexDisplayCb.isChecked():
+                    data = b2a_hex(recvData)
+                    data = data.decode('utf8')
+                else:
+                    data = recvData.decode('utf8')
         except:
             QMessageBox.critical(self, '错误', '串口接收错误')
 
         if not self.pauseReceiveCb.isChecked():
             if self.autoWrapCb.isChecked():
-                self.recvText.append(data + '\n')
+                self.recvText.insertPlainText(data + '\n')
             else:
-                self.recvText.append(data)
+                self.recvText.insertPlainText(data)
 
     @pyqtSlot()
     def getData(self):
@@ -105,11 +128,16 @@ class serialTop(SerialUI):
                 QMessageBox.warning(self, '警告', '十六进制数不是偶数个')
                 return
         else:
-            data = data.encode('ascii')
+            data = data.encode('utf8')
             self.dataReady.emit(data)
 
     @pyqtSlot(bytes)
     def sendData(self, data):
+        '''
+        ascii 方式发送 '34', HEX显示为 '33 34'; ascii显示为 '34'
+        hex 方式发送 '34', HEX显示为 '34'; ascii显示为 '4'
+        :return:
+        '''
         n = self.com.write(data)
         self.sendCnt += n
         self.sendCntBar.setText('发送字节：' + str(self.sendCnt))
