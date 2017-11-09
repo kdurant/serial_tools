@@ -95,8 +95,8 @@ class serialTop(SerialUI):
             self.recvCnt += len(recvData)
             self.recvCntBar.setText('发送字节：' + str(self.recvCnt))
 
-            if self.hexSendCb.isChecked():
-                if self.hexDisplayCb.isChecked():
+            if self.hexSendRbtn.isChecked():
+                if self.hexSendRbtn.isChecked():
                     data = b2a_hex(recvData)
                     data = data.decode('utf8')
                 else:
@@ -104,7 +104,7 @@ class serialTop(SerialUI):
                     data = data.decode('utf8')
                     data = ''.join([str(ord(i)) for i in data])     # '34' -> '33 34'
             else:
-                if self.hexDisplayCb.isChecked():
+                if self.hexSendRbtn.isChecked():
                     data = b2a_hex(recvData)
                     data = data.decode('utf8')
                 else:
@@ -132,7 +132,7 @@ class serialTop(SerialUI):
         if len(data) == 0:
             QMessageBox.warning(self, '警告', '不能发送空内容')
             return
-        if self.hexSendCb.isChecked():
+        if self.hexSendRbtn.isChecked():
             data = data.replace(' ', '')
             if len(data) % 2 == 0:
                 data = a2b_hex(data)

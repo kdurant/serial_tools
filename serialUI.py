@@ -122,28 +122,42 @@ class SerialUI(QMainWindow):
         return groupBox
 
     def recvConfigUI(self):
+        self.hexSendRbtn = QRadioButton('HEX')
+        self.asciiSendRbtn = QRadioButton('ASCII')
+        self.hexSendRbtn.setChecked(True)
+
         self.writeDataToFileCb = QCheckBox('接受数据写入文件')
         self.autoWrapCb = QCheckBox('自动换行')
         self.autoWrapCb.setChecked(True)
-        self.hexDisplayCb = QCheckBox('HEX显示')
-        self.pauseReceiveCb = QCheckBox('暂停接受')
+        self.pauseReceiveCb = QCheckBox('暂停接收')
         self.saveRecvBtn = QPushButton('保存数据')
         self.saveRecvBtn.setToolTip('保存当前接受数据区的数据')
         self.clearRecvBtn = QPushButton('清除显示')
 
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.asciiSendRbtn)
+        hbox.addWidget(self.hexSendRbtn)
+
         vbox = QVBoxLayout()
         vbox.addWidget(self.writeDataToFileCb)
         vbox.addWidget(self.autoWrapCb)
-        vbox.addWidget(self.hexDisplayCb)
         vbox.addWidget(self.pauseReceiveCb)
         vbox.addWidget(self.saveRecvBtn)
         vbox.addWidget(self.clearRecvBtn)
 
+        mainLayout = QVBoxLayout()
+        mainLayout.addLayout(hbox)
+        mainLayout.addLayout(vbox)
+
         groupBox = QGroupBox('接受设置')
-        groupBox.setLayout(vbox)
+        groupBox.setLayout(mainLayout)
         return groupBox
 
     def sendConfigUI(self):
+        self.hexSendRbtn = QRadioButton('HEX')
+        self.asciiSendRbtn = QRadioButton('ASCII')
+        self.hexSendRbtn.setChecked(True)
+
         self.loadFileBtn = QPushButton('选择文件')
         self.hexSendCb = QCheckBox('HEX发送')
         self.hexSendCb.setChecked(True)
@@ -151,15 +165,22 @@ class SerialUI(QMainWindow):
         self.timeEdit = QLineEdit('1000')
         self.sendBtn = QPushButton('发送')
 
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.asciiSendRbtn)
+        hbox.addWidget(self.hexSendRbtn)
+
         vbox = QVBoxLayout()
-        vbox.addWidget(self.loadFileBtn)
         vbox.addWidget(self.hexSendCb)
         vbox.addWidget(self.timeSendCb)
         vbox.addWidget(self.timeEdit)
         vbox.addWidget(self.sendBtn)
+        vbox.addWidget(self.loadFileBtn)
 
+        mainLayout = QVBoxLayout()
+        mainLayout.addLayout(hbox)
+        mainLayout.addLayout(vbox)
         groupBox = QGroupBox('发送设置')
-        groupBox.setLayout(vbox)
+        groupBox.setLayout(mainLayout)
         return groupBox
 
     def recvdataUI(self):
