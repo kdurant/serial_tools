@@ -158,12 +158,11 @@ class SerialUI(QMainWindow):
         self.asciiSendRbtn = QRadioButton('ASCII')
         self.hexSendRbtn.setChecked(True)
 
-        self.loadFileBtn = QPushButton('选择文件')
+
         self.hexSendCb = QCheckBox('HEX发送')
         self.hexSendCb.setChecked(True)
         self.timeSendCb = QCheckBox('定时发送(ms)：')
         self.timeEdit = QLineEdit('1000')
-        self.sendBtn = QPushButton('发送')
 
         hbox = QHBoxLayout()
         hbox.addWidget(self.asciiSendRbtn)
@@ -173,8 +172,6 @@ class SerialUI(QMainWindow):
         vbox.addWidget(self.hexSendCb)
         vbox.addWidget(self.timeSendCb)
         vbox.addWidget(self.timeEdit)
-        vbox.addWidget(self.sendBtn)
-        vbox.addWidget(self.loadFileBtn)
 
         mainLayout = QVBoxLayout()
         mainLayout.addLayout(hbox)
@@ -197,12 +194,25 @@ class SerialUI(QMainWindow):
         self.sendEdit = QLineEdit()
         self.sendEdit.setToolTip('HEX模式时，发送的数据不包括空格')
         self.sendEdit.setValidator(QRegExpValidator(QRegExp("[a-fA-F0-9 ]+$")))
+        self.loadFileBtn = QPushButton('选择文件')
+        self.loadFileEdit = QLineEdit()
+        self.loadFileEdit.setReadOnly(True)
+        self.sendBtn = QPushButton('发送')
+
+        hbox1 = QHBoxLayout()
+        hbox1.addWidget(self.loadFileBtn)
+        hbox1.addWidget(self.loadFileEdit)
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.sendEdit)
+        vbox.addLayout(hbox1)
+
+        mainLayout = QHBoxLayout()
+        mainLayout.addLayout(vbox)
+        mainLayout.addWidget(self.sendBtn)
 
         groupBox = QGroupBox('发送数据区')
-        groupBox.setLayout(vbox)
+        groupBox.setLayout(mainLayout)
         return groupBox
 
     def showExtendUI(self):
