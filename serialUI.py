@@ -98,6 +98,7 @@ class SerialUI(QMainWindow):
         self.serialStopComb = QComboBox()
         self.serialStopComb.addItems(['1', '2'])
         self.openBtn = QPushButton('打开串口')
+        self.openBtn.setObjectName('openBtn')
 
         self.closeBtn = QPushButton('关闭串口')
         self.closeBtn.setEnabled(False)
