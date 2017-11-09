@@ -3,6 +3,7 @@
 # from PyQt5.QtGui import *
 # from PyQt5.QtWidgets import *
 # from PyQt5.QtSerialPort import *
+import os
 from binascii import a2b_hex, b2a_hex
 from serialUI import *
 from extendFunction import *
@@ -35,6 +36,8 @@ class serialTop(SerialUI):
         self.sendBtn.clicked.connect(self.getData)
         self.dataReady[bytes].connect(self.sendData)
         self.autoTimer.timeout.connect(self.getData)
+        self.loadFileBtn.clicked.connect(self.selectFile)
+        self.sendFileBtn.clicked.connect(self.getFileData)
 
     @pyqtSlot()
     def openCom(self):
@@ -124,10 +127,6 @@ class serialTop(SerialUI):
         从发送文本框里获得需要发送的字符串
         :return:
         '''
-        if self.openBtn.isEnabled():
-            QMessageBox.warning(self, '警告', '请先打开串口')
-            return
-
         data = self.sendEdit.text()
         if len(data) == 0:
             QMessageBox.warning(self, '警告', '不能发送空内容')
@@ -151,6 +150,11 @@ class serialTop(SerialUI):
         hex 方式发送 '34', HEX显示为 '34'; ascii显示为 '4'
         :return:
         '''
+
+        if self.openBtn.isEnabled():
+            QMessageBox.warning(self, '警告', '请先打开串口')
+            return
+
         n = self.com.write(data)
         self.sendCnt += n
         self.sendCntBar.setText('发送字节：' + str(self.sendCnt))
@@ -181,6 +185,26 @@ class serialTop(SerialUI):
             self.autoTimer.start(int(self.timeEdit.text()))
         else:
             self.autoTimer.stop()
+
+    @pyqtSlot()
+    def selectFile(self):
+        file = QFileDialog.getOpenFileName(self,
+                                                          "选取文件",
+                                                          os.getcwd(),
+                                                          "All Files (*)")  # 设置文件扩展名过滤,注意用双分号间隔
+
+        self.loadFileEdit.setText(file[0])
+
+    @pyqtSlot()
+    def getFileData(self):
+        file = self.loadFileEdit.text()
+        if len(file) == 0:
+            return
+        else:
+            data = open(file, encoding='utf-8').read()
+            data = data.encode('utf8')
+            self.dataReady.emit(data)
+
 
     def showExtendUI(self):
         if self.extendUI.isHidden():

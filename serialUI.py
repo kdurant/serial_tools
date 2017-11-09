@@ -29,7 +29,8 @@ class SerialUI(QMainWindow):
 
         self.helpWidget = QWidget()
         self.helpWidget.hide()
-        self.hexSendCb.stateChanged.connect(self.editValidator)
+        self.hexSendRbtn.clicked.connect(self.editValidator)
+        self.asciiSendRbtn.clicked.connect(self.editValidator)
 
     def initUI(self):
         serialInfo = self.serialParaUI()
@@ -158,9 +159,6 @@ class SerialUI(QMainWindow):
         self.asciiSendRbtn = QRadioButton('ASCII')
         self.hexSendRbtn.setChecked(True)
 
-
-        self.hexSendCb = QCheckBox('HEX发送')
-        self.hexSendCb.setChecked(True)
         self.timeSendCb = QCheckBox('定时发送(ms)：')
         self.timeEdit = QLineEdit('1000')
 
@@ -169,7 +167,6 @@ class SerialUI(QMainWindow):
         hbox.addWidget(self.hexSendRbtn)
 
         vbox = QVBoxLayout()
-        vbox.addWidget(self.hexSendCb)
         vbox.addWidget(self.timeSendCb)
         vbox.addWidget(self.timeEdit)
 
@@ -198,18 +195,21 @@ class SerialUI(QMainWindow):
         self.loadFileEdit = QLineEdit()
         self.loadFileEdit.setReadOnly(True)
         self.sendBtn = QPushButton('发送')
+        self.sendFileBtn = QPushButton('发送文件')
+        self.sendFileBtn.setToolTip('文件只支持以ASCII码发送')
 
         hbox1 = QHBoxLayout()
         hbox1.addWidget(self.loadFileBtn)
         hbox1.addWidget(self.loadFileEdit)
+        hbox1.addWidget(self.sendFileBtn)
 
-        vbox = QVBoxLayout()
+        vbox = QHBoxLayout()
         vbox.addWidget(self.sendEdit)
-        vbox.addLayout(hbox1)
+        vbox.addWidget(self.sendBtn)
 
-        mainLayout = QHBoxLayout()
+        mainLayout = QVBoxLayout()
         mainLayout.addLayout(vbox)
-        mainLayout.addWidget(self.sendBtn)
+        mainLayout.addLayout(hbox1)
 
         groupBox = QGroupBox('发送数据区')
         groupBox.setLayout(mainLayout)
@@ -230,7 +230,7 @@ class SerialUI(QMainWindow):
 
     @pyqtSlot()
     def editValidator(self):
-        if self.hexSendCb.isChecked():
+        if self.hexSendRbtn.isChecked():
             self.sendEdit.setValidator(QRegExpValidator(QRegExp("[a-fA-F0-9 ]+$")))
         else:
             self.sendEdit.setValidator(QRegExpValidator(QRegExp(".*")))
