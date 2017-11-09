@@ -29,6 +29,7 @@ class SerialUI(QMainWindow):
 
         self.helpWidget = QWidget()
         self.helpWidget.hide()
+        self.hexSendCb.stateChanged.connect(self.editValidator)
 
     def initUI(self):
         serialInfo = self.serialParaUI()
@@ -172,7 +173,9 @@ class SerialUI(QMainWindow):
 
     def sendDataUI(self):
         self.sendEdit = QLineEdit()
-        self.sendEdit.setToolTip('发送的数据不包括空格')
+        self.sendEdit.setToolTip('HEX模式时，发送的数据不包括空格')
+        self.sendEdit.setValidator(QRegExpValidator(QRegExp("[a-fA-F0-9 ]+$")))
+
         vbox = QVBoxLayout()
         vbox.addWidget(self.sendEdit)
 
@@ -193,6 +196,12 @@ class SerialUI(QMainWindow):
         else:
             self.helpWidget.hide()
 
+    @pyqtSlot()
+    def editValidator(self):
+        if self.hexSendCb.isChecked():
+            self.sendEdit.setValidator(QRegExpValidator(QRegExp("[a-fA-F0-9 ]+$")))
+        else:
+            self.sendEdit.setValidator(QRegExpValidator(QRegExp(".*")))
 
     @pyqtSlot()
     def aboutTool(self):

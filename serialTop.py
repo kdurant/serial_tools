@@ -116,11 +116,12 @@ class serialTop(SerialUI):
             QMessageBox.warning(self, '警告', '请先打开串口')
             return
 
-        data = self.sendEdit.text().replace(' ', '')
+        data = self.sendEdit.text()
         if len(data) == 0:
             QMessageBox.warning(self, '警告', '不能发送空内容')
             return
         if self.hexSendCb.isChecked():
+            data = data.replace(' ', '')
             if len(data) % 2 == 0:
                 data = a2b_hex(data)
                 self.dataReady.emit(data)
