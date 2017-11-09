@@ -1,6 +1,9 @@
 #-*- coding:utf-8 -*-
 # -*- coding:utf-8 -*-
 
+__version__ = 'v0.0.2'
+__autor__ = 'kdurant'
+
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -62,20 +65,22 @@ class SerialUI(QMainWindow):
     def createToolBar(self):
         self.highAction = QAction(QIcon('images/high.svg'), "extend", self, triggered=self.showExtendUI)
         self.helpAction = QAction(QIcon('images/help.svg'), "help", self, triggered=self.showHelpWidget)
+        self.aboutAction = QAction(QIcon('images/aboutTool.svg'), "about", self, triggered=self.aboutTool)
         toolbar = self.addToolBar('T')
         # new = QAction(QIcon("./images/new.png"), "new", self)
         toolbar.addAction(self.highAction)
+        toolbar.addAction(self.aboutAction)
         toolbar.addAction(self.helpAction)
 
     def createStatusBar(self):
         self.statusBar = QStatusBar()
-        self.bar0 = QLabel()
-        self.bar1 = QLabel()
-        self.bar2 = QLabel()
+        self.serialStatusBar = QLabel('串口状态：关闭')
+        self.recvCntBar = QLabel('接收字节：0')
+        self.sendCntBar = QLabel('发送字节：0')
         self.bar3 = QLabel()
-        self.statusBar.addWidget(self.bar0, 1)
-        self.statusBar.addWidget(self.bar1, 1)
-        self.statusBar.addWidget(self.bar2, 1)
+        self.statusBar.addWidget(self.serialStatusBar, 1)
+        self.statusBar.addWidget(self.recvCntBar, 1)
+        self.statusBar.addWidget(self.sendCntBar, 1)
         self.statusBar.addWidget(self.bar3, 1)
         self.setStatusBar(self.statusBar)
 
@@ -139,13 +144,16 @@ class SerialUI(QMainWindow):
     def sendConfigUI(self):
         self.loadFileBtn = QPushButton('选择文件')
         self.hexSendCb = QCheckBox('HEX发送')
-        self.timeSendCb = QCheckBox('定时发送ms：')
+        self.hexSendCb.setChecked(True)
+        self.timeSendCb = QCheckBox('定时发送(ms)：')
+        self.timeEdit = QLineEdit('1000')
         self.sendBtn = QPushButton('发送')
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.loadFileBtn)
         vbox.addWidget(self.hexSendCb)
         vbox.addWidget(self.timeSendCb)
+        vbox.addWidget(self.timeEdit)
         vbox.addWidget(self.sendBtn)
 
         groupBox = QGroupBox('发送设置')
@@ -164,6 +172,7 @@ class SerialUI(QMainWindow):
 
     def sendDataUI(self):
         self.sendEdit = QLineEdit()
+        self.sendEdit.setToolTip('发送的数据不包括空格')
         vbox = QVBoxLayout()
         vbox.addWidget(self.sendEdit)
 
@@ -183,6 +192,14 @@ class SerialUI(QMainWindow):
             self.helpWidget.show()
         else:
             self.helpWidget.hide()
+
+
+    @pyqtSlot()
+    def aboutTool(self):
+        QMessageBox.about(self, "介绍", "verison：" + __version__ + "\n" 
+                                        "autor：" + __autor__ + "\n"
+                                        'github: https://github.com/durant'
+                                        )
 
 if __name__ == "__main__":
     import sys

@@ -81,11 +81,17 @@ class MutilString(QWidget):
                 data = self.hexEditList[i].text()
                 print(data)
                 self.dataReady.emit(data)
-                QThread.msleep(int(self.strInterTimeEdit.text()))
+                QThread.msleep(int(self.timeEdit.text()))
         pass
 
     def sendSingleStr(self):
-        print('hello world')
+        sender = self.sender()
+        num = int(sender.text())
+        data = self.hexEditList[num].text()
+        if data:
+            print(data)
+        else:
+            QMessageBox.warning(self, '警告', '发送内容不能为空')
 
 class ProtocalFrame(QWidget):
     def __init__(self):
