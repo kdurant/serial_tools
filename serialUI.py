@@ -75,7 +75,7 @@ class SerialUI(QMainWindow):
 
     def createStatusBar(self):
         self.statusBar = QStatusBar()
-        self.serialStatusBar = QLabel('串口状态：关闭')
+        self.serialStatusBar = QLabel('串口状态：Close')
         self.recvCntBar = QLabel('接收字节：0')
         self.sendCntBar = QLabel('发送字节：0')
         self.bar3 = QLabel()
@@ -88,13 +88,14 @@ class SerialUI(QMainWindow):
     def serialParaUI(self):
         self.serialNumComb = QComboBox()
         self.serialBaudComb = QComboBox()
-        self.serialBaudComb.addItems(['9600', '38400', '115200'])
+        self.serialBaudComb.addItems(['9600', '14400', '38400', '56000', '57600', '115200', '128000'])
         self.serialCheckComb = QComboBox()
         self.serialCheckComb.addItems(['None'])
         self.serialDataLenComb = QComboBox()
-        self.serialDataLenComb.addItems(['8'])
+        self.serialDataLenComb.addItems(['5', '6', '7', '8'])
+        self.serialDataLenComb.setCurrentText('8')
         self.serialStopComb = QComboBox()
-        self.serialStopComb.addItems(['1'])
+        self.serialStopComb.addItems(['1', '2'])
         self.openBtn = QPushButton('打开串口')
 
         self.closeBtn = QPushButton('关闭串口')

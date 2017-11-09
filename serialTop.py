@@ -39,7 +39,6 @@ class serialTop(SerialUI):
     @pyqtSlot()
     def openCom(self):
         comName = self.serialNumComb.currentText()
-        comBaud = int(self.serialBaudComb.currentText())
         self.com.setPortName(comName)
         try:
             if self.com.open(QSerialPort.ReadWrite) == False:
@@ -50,12 +49,18 @@ class serialTop(SerialUI):
                 self.openBtn.setEnabled(False)
                 self.closeBtn.setEnabled(True)
                 self.serialStatusBar.setText('串口状态：Open')
-
-                return
         except:
             QMessageBox.critical(self, '打开失败', '该串口不存在或已被占用')
             return
-        self.com.setBaudRate(comBaud)
+        self.com.setBaudRate(int(self.serialBaudComb.currentText()))
+        self.com.setDataBits(int(self.serialDataLenComb.currentText()))
+        self.com.setStopBits(int(self.serialStopComb.currentText()))
+
+        self.serialNumComb.setEnabled(False)
+        self.serialBaudComb.setEnabled(False)
+        self.serialCheckComb.setEnabled(False)
+        self.serialDataLenComb.setEnabled(False)
+        self.serialStopComb.setEnabled(False)
 
     @pyqtSlot()
     def closeCom(self):
@@ -64,6 +69,13 @@ class serialTop(SerialUI):
             self.openBtn.setEnabled(True)
             self.closeBtn.setEnabled(False)
             self.serialStatusBar.setText('串口状态：Close')
+
+            self.serialNumComb.setEnabled(True)
+            self.serialBaudComb.setEnabled(True)
+            self.serialCheckComb.setEnabled(True)
+            self.serialDataLenComb.setEnabled(True)
+            self.serialStopComb.setEnabled(True)
+            return
 
     @pyqtSlot()
     def recvData(self):
@@ -162,6 +174,7 @@ class serialTop(SerialUI):
                 pass
         else:
             QMessageBox.warning(self, '警告', '不能保存空白内容')
+
     @pyqtSlot()
     def startAutoTimer(self):
         if self.timeSendCb.isChecked():
