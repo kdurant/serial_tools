@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtSerialPort import *
 import os
 from binascii import a2b_hex, b2a_hex
-from test import *
+from ui import *
 
 class MyWindow(QMainWindow, Ui_serialTool):
     dataReady = pyqtSignal(bytes)
