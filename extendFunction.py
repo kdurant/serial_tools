@@ -117,19 +117,89 @@ class MutilString(QWidget):
         else:
             QMessageBox.warning(self, '警告', '发送内容不能为空')
 
-class ProtocalFrame(QWidget):
+class ProtocalFrame(QFrame):
     def __init__(self):
         super(ProtocalFrame, self).__init__()
+        self.initUI()
+        self.sendProtocalBtn.clicked.connect(self.prepareData)
+    def initUI(self):
+        self.hexModeRbtn = QRadioButton('HEX')
+        self.hexModeRbtn.setChecked(True)
+        self.asciiModeRbtn = QRadioButton('ASCII')
+        self.sendProtocalBtn = QPushButton('发送')
+        self.selectCheckComb = QComboBox()
+        self.selectCheckComb.addItems(['异或', '累加和', 'CRC8', 'CRC16'])
+
+        self.table = QTableWidget(3, 4)
+        self.table.setHorizontalHeaderLabels(['Field1', '2', '3', '4'])
+        self.table.setVerticalHeaderLabels(['长度(Byte)', '数据', '有效'])
+
+        for i in range(self.table.rowCount()):
+            if i == 0:
+                for j in range(self.table.columnCount()):
+                    item = QTableWidgetItem()
+                    item.setText('1')
+                    self.table.setItem(i, j, item)
+            elif i == 2:
+                for j in range(self.table.columnCount()):
+                    item = QTableWidgetItem('Y')
+                    self.table.setItem(i, j, item)
+            else:
+                pass
+
+        hbox = QHBoxLayout()
+        hbox.addStretch(1)
+        hbox.addWidget(self.hexModeRbtn)
+        hbox.addWidget(self.asciiModeRbtn)
+        hbox.addWidget(QLabel('校验公式：'))
+        hbox.addWidget(self.selectCheckComb)
+        hbox.addWidget(self.sendProtocalBtn)
+        mainLayout = QVBoxLayout()
+        mainLayout.addLayout(hbox)
+        mainLayout.addWidget(self.table)
+        self.setLayout(mainLayout)
         pass
+
+    @pyqtSlot()
+    def prepareData(self):
+        data = ''
+        for i in range(self.table.columnCount()):
+            if self.table.item(2, i).text() == 'Y':
+                tmp = self.table.item(1, i)
+                # if tmp == 'None': # 单元格里没有内容
+                if tmp is None: # 单元格里没有内容
+                    QMessageBox.warning(self, '警告', '选择有效但没有数据')
+                    return
+                else:
+                    len = int(self.table.item(0, i).text())
+                    data += self.table.item(1, i).text().zfill(len*2)
+
+        data += self.checkSum(data)
+
+
+    def checkSum(self, data):
+        checksum = 0
+        l = [int(data[x:x + 2], 16) for x in range(0, len(data), 2)]
+        if self.selectCheckComb.currentText() == '累加和':
+            return ''
+        elif self.selectCheckComb.currentText() == '异或':
+            for i in l:
+                checksum ^= i
+            end = str(hex(checksum)).replace('0x', '')
+            return end
+        elif self.selectCheckComb.currentText() == 'CRC8':
+            return ''
+        elif self.selectCheckComb.currentText() == 'CRC16':
+            return ''
 
 class ExtendFunction(QWidget):
     def __init__(self):
         super(ExtendFunction, self).__init__()
 
-        mutilString = MutilString()
-
+        # mutilString = MutilString()
+        protocal = ProtocalFrame()
         vbox = QVBoxLayout()
-        vbox.addWidget(mutilString)
+        vbox.addWidget(protocal)
 
         self.setLayout(vbox)
 
