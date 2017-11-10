@@ -19,12 +19,12 @@ class MutilString(QWidget):
         self.signalSlot()
 
     def initUI(self):
-        t = self.haha()
+        t = self.mutlUI()
         vbox = QHBoxLayout()
         vbox.addWidget(t)
         self.setLayout(vbox)
 
-    def haha(self):
+    def mutlUI(self):
         grid = QGridLayout()
         for i in range(0, 8):
             self.selCbList.append(QCheckBox())
@@ -45,6 +45,7 @@ class MutilString(QWidget):
         grid.addWidget(selLabel, 0, 0)
         grid.addWidget(strLabel, 0, 1)
         grid.addWidget(sendLabel, 0, 2)
+        grid.setAlignment(Qt.AlignHCenter)
 
 
         self.cycleSendCb = QCheckBox('循环发送')
@@ -56,15 +57,22 @@ class MutilString(QWidget):
         hbox.addWidget(self.hexSendCb)
 
         self.cycleInterTimeEdit = QLineEdit('1000')
+        self.cycleInterTimeEdit.setToolTip('所有字符串发次一次时间间隔')
         self.strInterTimeEdit = QLineEdit('50')
-        form = QFormLayout()
-        form.addRow('大循环间隔时间(ms)：', self.cycleInterTimeEdit)
-        form.addRow('字符串间隔时间(ms)：', self.strInterTimeEdit)
+        self.strInterTimeEdit.setToolTip('每条字符串时间间隔')
+
+        hbox1 = QHBoxLayout()
+        hbox1.addWidget(self.cycleSendCb)
+        hbox1.addWidget(self.hexSendCb)
+        hbox1.addWidget(QLabel('周期(ms)：'))
+        hbox1.addWidget(self.cycleInterTimeEdit)
+        hbox1.addWidget(QLabel('间隔时间(ms)：'))
+        hbox1.addWidget(self.strInterTimeEdit)
 
         vbox = QVBoxLayout()
+        vbox.addLayout(hbox1)
+        # vbox.addLayout(hbox)
         vbox.addLayout(grid)
-        vbox.addLayout(hbox)
-        vbox.addLayout(form)
         vbox.addStretch()
 
         # self.setLayout(vbox)

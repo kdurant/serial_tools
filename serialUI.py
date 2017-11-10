@@ -34,28 +34,29 @@ class SerialUI(QMainWindow):
         sendSet = self.sendConfigUI()
         recvData = self.recvdataUI()
         sendData = self.sendDataUI()
-        # self.extendUI = MutilString()
+        mutilString = MutilString()
         # self.extendUI.hide()
+
+        tab = QTabWidget()
+        tab.addTab(sendData, '基本数据')
+        tab.addTab(mutilString, '多字符串')
 
         rightLayout = QVBoxLayout()
         rightLayout.addWidget(serialInfo)
         rightLayout.addWidget(recvSet)
         rightLayout.addWidget(sendSet)
 
-        highLayout = QVBoxLayout()
-        # highLayout.addWidget(self.extendUI)
-
         leftLayout = QVBoxLayout()
         leftLayout.addWidget(recvData)
-        leftLayout.addWidget(sendData)
+        leftLayout.addWidget(tab)
+        leftLayout.setStretchFactor(recvData, 3)
+        leftLayout.setStretchFactor(tab, 2)
 
         mainLayout = QHBoxLayout()
         mainLayout.addLayout(rightLayout)
         mainLayout.addLayout(leftLayout)
-        # mainLayout.addLayout(highLayout)
-
-        mainLayout.setStretchFactor(leftLayout, 3)
-        mainLayout.setStretchFactor(highLayout, 1)
+        mainLayout.setStretchFactor(rightLayout, 1)
+        mainLayout.setStretchFactor(leftLayout, 4)
         widget = QWidget()
         widget.setLayout(mainLayout)
         self.setCentralWidget(widget)
@@ -187,9 +188,9 @@ class SerialUI(QMainWindow):
         mainLayout.addLayout(vbox)
         mainLayout.addLayout(hbox1)
 
-        groupBox = QGroupBox('发送数据区')
-        groupBox.setLayout(mainLayout)
-        return groupBox
+        frame = QFrame()
+        frame.setLayout(mainLayout)
+        return frame
 
 if __name__ == "__main__":
     import sys
