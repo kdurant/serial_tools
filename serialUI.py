@@ -90,6 +90,7 @@ class SerialUI(QMainWindow):
         self.serialNumComb = QComboBox()
         self.serialBaudComb = QComboBox()
         self.serialBaudComb.addItems(['9600', '14400', '38400', '56000', '57600', '115200', '128000'])
+        self.serialBaudComb.setCurrentText('115200')
         self.serialCheckComb = QComboBox()
         self.serialCheckComb.addItems(['None'])
         self.serialDataLenComb = QComboBox()
@@ -124,9 +125,9 @@ class SerialUI(QMainWindow):
         return groupBox
 
     def recvConfigUI(self):
-        self.hexSendRbtn = QRadioButton('HEX')
-        self.asciiSendRbtn = QRadioButton('ASCII')
-        self.hexSendRbtn.setChecked(True)
+        self.hexRecvRbtn = QRadioButton('HEX')
+        self.asciiRecvRbtn = QRadioButton('ASCII')
+        self.hexRecvRbtn.setChecked(True)
 
         self.writeDataToFileCb = QCheckBox('接受数据写入文件')
         self.autoWrapCb = QCheckBox('自动换行')
@@ -137,8 +138,8 @@ class SerialUI(QMainWindow):
         self.clearRecvBtn = QPushButton('清除显示')
 
         hbox = QHBoxLayout()
-        hbox.addWidget(self.asciiSendRbtn)
-        hbox.addWidget(self.hexSendRbtn)
+        hbox.addWidget(self.asciiRecvRbtn)
+        hbox.addWidget(self.hexRecvRbtn)
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.writeDataToFileCb)

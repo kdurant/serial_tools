@@ -99,7 +99,7 @@ class serialTop(SerialUI):
             self.recvCntBar.setText('发送字节：' + str(self.recvCnt))
 
             if self.hexSendRbtn.isChecked():
-                if self.hexSendRbtn.isChecked():
+                if self.hexRecvRbtn.isChecked():
                     data = b2a_hex(recvData)
                     data = data.decode('utf8')
                 else:
@@ -107,7 +107,7 @@ class serialTop(SerialUI):
                     data = data.decode('utf8')
                     data = ''.join([str(ord(i)) for i in data])     # '34' -> '33 34'
             else:
-                if self.hexSendRbtn.isChecked():
+                if self.hexRecvRbtn.isChecked():
                     data = b2a_hex(recvData)
                     data = data.decode('utf8')
                 else:
@@ -201,8 +201,9 @@ class serialTop(SerialUI):
         if len(file) == 0:
             return
         else:
-            data = open(file, encoding='utf-8').read()
-            data = data.encode('utf8')
+            # data = open(file, encoding='utf-8').read()
+            data = open(file, 'rb').read()
+            # data = data.encode('utf8')
             self.dataReady.emit(data)
 
 
