@@ -6,9 +6,9 @@ __pycache__
 *.txt
 *.bin
 
-tmp.py
-test.py
-demo.py
+tmp*
+test*
+demo*
 
 build*
 dist
