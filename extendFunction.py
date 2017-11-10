@@ -17,8 +17,14 @@ class MutilString(QWidget):
         self.timer = QTimer()
         self.initUI()
         self.signalSlot()
-    def initUI(self):
 
+    def initUI(self):
+        t = self.haha()
+        vbox = QHBoxLayout()
+        vbox.addWidget(t)
+        self.setLayout(vbox)
+
+    def haha(self):
         grid = QGridLayout()
         for i in range(0, 8):
             self.selCbList.append(QCheckBox())
@@ -61,12 +67,22 @@ class MutilString(QWidget):
         vbox.addLayout(form)
         vbox.addStretch()
 
-        self.setLayout(vbox)
+        # self.setLayout(vbox)
+
+        frame = QFrame()
+        frame.setLayout(vbox)
+
+        s = QScrollArea()
+        s.setWidget(frame)
+        s.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        s.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        s.setWidgetResizable(True)
+        return s
 
     def signalSlot(self):
         self.cycleSendCb.stateChanged.connect(self. startCycleTime)
         self.timer.timeout.connect(self.prepareData)
-
+        pass
     @pyqtSlot()
     def startCycleTime(self):
         if self.cycleSendCb.isChecked():
