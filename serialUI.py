@@ -27,8 +27,6 @@ class SerialUI(QMainWindow):
 
         self.helpWidget = QWidget()
         self.helpWidget.hide()
-        self.hexSendRbtn.clicked.connect(self.editValidator)
-        self.asciiSendRbtn.clicked.connect(self.editValidator)
 
     def initUI(self):
         serialInfo = self.serialParaUI()

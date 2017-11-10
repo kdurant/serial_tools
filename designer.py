@@ -1,17 +1,24 @@
-# -*- coding:utf-8 -*-
-# from PyQt5.QtCore import *
-# from PyQt5.QtGui import *
-# from PyQt5.QtWidgets import *
-# from PyQt5.QtSerialPort import *
+#-*- coding:utf-8 -*-
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtSerialPort import *
 import os
 from binascii import a2b_hex, b2a_hex
-from serialUI import *
-from extendFunction import *
+from test import *
 
-class serialTop(SerialUI):
+class MyWindow(QMainWindow, Ui_serialTool):
     dataReady = pyqtSignal(bytes)
     def __init__(self):
-        super(serialTop, self).__init__()
+        super(MyWindow, self).__init__()
+        super(Ui_serialTool, self).__init__()
+        self.setupUi(self)
+        try:
+            qss = open('serial.qss').read()
+            self.setStyleSheet(qss)
+        except:
+            pass
+
         # self.createToolBar()
         self.createStatusBar()
 
@@ -270,10 +277,11 @@ class serialTop(SerialUI):
                                         )
 
 
+
+
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
-    ui = serialTop()
-    # ui = selectFile()
-    ui.show()
+    myWindow = MyWindow()
+    myWindow.show()
     sys.exit(app.exec_())
