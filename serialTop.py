@@ -12,6 +12,9 @@ class serialTop(SerialUI):
     dataReady = pyqtSignal(bytes)
     def __init__(self):
         super(serialTop, self).__init__()
+        # self.createToolBar()
+        self.createStatusBar()
+
         self.com = QSerialPort()
         self.recvCnt = 0
         self.sendCnt = 0
@@ -213,6 +216,56 @@ class serialTop(SerialUI):
         else:
             self.extendUI.hide()
         pass
+
+
+    def createToolBar(self):
+        # self.highAction = QAction(QIcon('images/high.svg'), "extend", self, triggered=self.showExtendUI)
+        self.helpAction = QAction(QIcon('images/help.svg'), "help", self, triggered=self.showHelpWidget)
+        self.aboutAction = QAction(QIcon('images/aboutTool.svg'), "about", self, triggered=self.aboutTool)
+        toolbar = self.addToolBar('T')
+        # new = QAction(QIcon("./images/new.png"), "new", self)
+        toolbar.addAction(self.highAction)
+        toolbar.addAction(self.aboutAction)
+        toolbar.addAction(self.helpAction)
+
+    def createStatusBar(self):
+        self.statusBar = QStatusBar()
+        self.serialStatusBar = QLabel('串口状态：Close')
+        self.recvCntBar = QLabel('接收字节：0')
+        self.sendCntBar = QLabel('发送字节：0')
+        self.bar3 = QLabel()
+        self.statusBar.addWidget(self.serialStatusBar, 1)
+        self.statusBar.addWidget(self.recvCntBar, 1)
+        self.statusBar.addWidget(self.sendCntBar, 1)
+        self.statusBar.addWidget(self.bar3, 1)
+        self.setStatusBar(self.statusBar)
+
+    def showExtendUI(self):
+        if self.extendUI.isHidden():
+            self.extendUI.show()
+        else:
+            self.extendUI.hide()
+
+    def showHelpWidget(self):
+        # self.helpWidget.show()
+        if self.helpWidget.isHidden():
+            self.helpWidget.show()
+        else:
+            self.helpWidget.hide()
+
+    @pyqtSlot()
+    def editValidator(self):
+        if self.hexSendRbtn.isChecked():
+            self.sendEdit.setValidator(QRegExpValidator(QRegExp("[a-fA-F0-9 ]+$")))
+        else:
+            self.sendEdit.setValidator(QRegExpValidator(QRegExp(".*")))
+
+    @pyqtSlot()
+    def aboutTool(self):
+        QMessageBox.about(self, "介绍", "verison：" + __version__ + "\n" 
+                                        "autor：" + __autor__ + "\n"
+                                        'github: https://github.com/durant'
+                                        )
 
 
 if __name__ == "__main__":
