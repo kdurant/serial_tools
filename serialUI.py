@@ -1,9 +1,5 @@
 #-*- coding:utf-8 -*-
 # -*- coding:utf-8 -*-
-
-__version__ = 'v0.0.2'
-__autor__ = 'kdurant'
-
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -25,7 +21,7 @@ class SerialUI(QMainWindow):
         self.setWindowIcon(QIcon('images/serialIcon.svg'))
         self.initUI()
 
-        self.helpWidget = QWidget()
+        self.helpWidget = HelpWidget()
         self.helpWidget.hide()
 
     def initUI(self):

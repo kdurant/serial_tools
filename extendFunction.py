@@ -203,11 +203,50 @@ class ExtendFunction(QWidget):
 
         self.setLayout(vbox)
 
+class HelpWidget(QWidget):
+    def __init__(self):
+        super(HelpWidget, self).__init__()
+        self.initUI()
+        self.setWindowTitle('串口相关信息')
+
+    def initUI(self):
+        tab = QTabWidget()
+        tab.addTab(self.basicInfoUI(), '基本信息')
+
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(tab)
+        self.setLayout(mainLayout)
+
+    def basicInfoUI(self):
+        self.imageLabel = QLabel()
+        self.imageLabel.setPixmap(QPixmap('images/level.png'))
+        # self.imageLabel.setPixmap(QPixmap('images/level.png').scaled(QSize(960*0.7, 300*0.8)))  # 缩放label里的图片
+        self.levelInfoLabel = QLabel()
+        self.levelInfoLabel.setText(
+                                    '1. USB转串口输出电平：正负5V\n'
+                                    '2. MAX232芯片输出电平：正负5V\n'
+
+        )
+        self.timeInfoLabel = QLabel()
+        self.timeInfoLabel.setText(
+                                    '1. 波特率9600：0.104ms/bit, 1.04ms/Byte\n'
+                                    '2. 波特率38400：0.026ms/bit, 0.26ms/Byte\n'
+                                    '3. 波特率115200：8.68us/bit, 86.8us/Byte\n'
+        )
+
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(self.imageLabel)
+        mainLayout.addWidget(self.levelInfoLabel)
+        mainLayout.addWidget(self.timeInfoLabel)
+
+        frame = QFrame()
+        frame.setLayout(mainLayout)
+        return frame
 
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
-    ui = ExtendFunction()
+    ui = HelpWidget()
     # ui = selectFile()
     ui.show()
     sys.exit(app.exec_())
