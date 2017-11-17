@@ -107,7 +107,7 @@ class MutilString(QWidget):
                 data = self.hexEditList[i].text()
                 data = a2b_hex(data)
                 self.dataReady.emit(data)
-                QThread.msleep(int(self.timeEdit.text()))
+                QThread.msleep(int(self.strInterTimeEdit.text()))
         pass
 
     def sendSingleStr(self):

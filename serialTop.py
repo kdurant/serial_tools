@@ -39,7 +39,7 @@ class serialTop(SerialUI):
         self.com.readyRead.connect(self.recvData)
         self.clearRecvBtn.clicked.connect(self.clearRecvData)
         self.saveRecvBtn.clicked.connect(self.saveRecvData)
-        self.timeSendCb.stateChanged.connect(self.startAutoTimer)
+        self.timeSendCb.clicked.connect(self.startAutoTimer)
         self.sendBtn.clicked.connect(self.getData)
         self.dataReady[bytes].connect(self.sendData)
         self.autoTimer.timeout.connect(self.getData)
@@ -192,6 +192,14 @@ class serialTop(SerialUI):
     @pyqtSlot()
     def startAutoTimer(self):
         if self.timeSendCb.isChecked():
+            if not self.sendEdit.text():
+                self.timeSendCb.setChecked(False)
+                QMessageBox.warning(self, '警告', '没有可发送数据')
+                return
+            if self.openBtn.isEnabled():
+                self.timeSendCb.setChecked(False)
+                QMessageBox.warning(self, '警告', '没有打开串口')
+                return
             self.autoTimer.start(int(self.timeEdit.text()))
         else:
             self.autoTimer.stop()
