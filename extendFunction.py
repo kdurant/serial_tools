@@ -132,6 +132,14 @@ class HelpWidget(QWidget):
         self.setWindowTitle('串口相关信息')
 
     def initUI(self):
+        tab = QTabWidget()
+        tab.addTab(self.basicInfoUI(), '基本信息')
+
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(tab)
+        self.setLayout(mainLayout)
+
+    def basicInfoUI(self):
         self.imageLabel = QLabel()
         self.imageLabel.setPixmap(QPixmap('images/level.png'))
         # self.imageLabel.setPixmap(QPixmap('images/level.png').scaled(QSize(960*0.7, 300*0.8)))  # 缩放label里的图片
@@ -153,7 +161,9 @@ class HelpWidget(QWidget):
         mainLayout.addWidget(self.levelInfoLabel)
         mainLayout.addWidget(self.timeInfoLabel)
 
-        self.setLayout(mainLayout)
+        frame = QFrame()
+        frame.setLayout(mainLayout)
+        return frame
 
 if __name__ == '__main__':
     import sys
