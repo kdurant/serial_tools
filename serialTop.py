@@ -231,8 +231,8 @@ class serialTop(SerialUI):
         toolbar = self.addToolBar('T')
         # new = QAction(QIcon("./images/new.png"), "new", self)
         #toolbar.addAction(self.highAction)
-        toolbar.addAction(self.aboutAction)
         toolbar.addAction(self.helpAction)
+        toolbar.addAction(self.aboutAction)
 
     def createStatusBar(self):
         self.statusBar = QStatusBar()

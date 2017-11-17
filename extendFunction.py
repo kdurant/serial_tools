@@ -133,8 +133,8 @@ class HelpWidget(QWidget):
 
     def initUI(self):
         self.imageLabel = QLabel()
-        # self.imageLabel.setPixmap(QPixmap('images/level.png'))
-        self.imageLabel.setPixmap(QPixmap('images/level.png').scaled(QSize(960*0.7, 300*0.8)))  # 缩放label里的图片
+        self.imageLabel.setPixmap(QPixmap('images/level.png'))
+        # self.imageLabel.setPixmap(QPixmap('images/level.png').scaled(QSize(960*0.7, 300*0.8)))  # 缩放label里的图片
         self.levelInfoLabel = QLabel()
         self.levelInfoLabel.setText(
                                     '1. USB转串口输出电平：正负5V\n'
@@ -143,9 +143,9 @@ class HelpWidget(QWidget):
         )
         self.timeInfoLabel = QLabel()
         self.timeInfoLabel.setText(
-                                    '1. 波特率9600：0.104ms/bit, 1.04ms/Byte'
-                                    '2. 波特率38400：0.026ms/bit, 0.26ms/Byte'
-                                    '3. 波特率115200：8.68us/bit, 86.8us/Byte'
+                                    '1. 波特率9600：0.104ms/bit, 1.04ms/Byte\n'
+                                    '2. 波特率38400：0.026ms/bit, 0.26ms/Byte\n'
+                                    '3. 波特率115200：8.68us/bit, 86.8us/Byte\n'
         )
 
         mainLayout = QVBoxLayout()
