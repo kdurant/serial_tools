@@ -47,6 +47,7 @@ class serialTop(SerialUI):
         self.sendFileBtn.clicked.connect(self.getFileData)
         self.hexSendRbtn.clicked.connect(self.editValidator)
         self.asciiSendRbtn.clicked.connect(self.editValidator)
+        self.mutilString.dataReady[bytes].connect(self.sendData)
 
     @pyqtSlot()
     def openCom(self):

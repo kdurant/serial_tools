@@ -2,12 +2,13 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from binascii import a2b_hex, b2a_hex
 
 class MutilString(QWidget):
     '''
     可设置发送多条字符串
     '''
-    dataReady = pyqtSignal(str)
+    dataReady = pyqtSignal(bytes)
     def __init__(self):
         super(MutilString, self).__init__()
         self.selCbList = []
@@ -29,6 +30,7 @@ class MutilString(QWidget):
         for i in range(0, 8):
             self.selCbList.append(QCheckBox())
             self.hexEditList.append(QLineEdit())
+            self.hexEditList[i].setValidator(QRegExpValidator(QRegExp("[a-fA-F0-9 ]+$")))
             btn = QPushButton(str(i))
             btn.setFixedWidth(30)
             self.sendBtnList.append(btn)
@@ -103,7 +105,7 @@ class MutilString(QWidget):
         for i in range(0, 8):
             if self.selCbList[i].isChecked():
                 data = self.hexEditList[i].text()
-                print(data)
+                data = a2b_hex(data)
                 self.dataReady.emit(data)
                 QThread.msleep(int(self.timeEdit.text()))
         pass
@@ -113,7 +115,11 @@ class MutilString(QWidget):
         num = int(sender.text())
         data = self.hexEditList[num].text()
         if data:
-            print(data)
+            if self.hexSendCb.isChecked():
+                data = a2b_hex(data)
+            else:
+                data = data.encode('utf8')
+            self.dataReady.emit(data)
         else:
             QMessageBox.warning(self, '警告', '发送内容不能为空')
 

@@ -30,13 +30,13 @@ class SerialUI(QMainWindow):
         sendSet = self.sendConfigUI()
         recvData = self.recvdataUI()
         sendData = self.sendDataUI()
-        mutilString = MutilString()
+        self.mutilString = MutilString()
         protocolFrame = ProtocalFrame()
         # self.extendUI.hide()
 
         tab = QTabWidget()
         tab.addTab(sendData, '基本数据')
-        tab.addTab(mutilString, '多字符串')
+        tab.addTab(self.mutilString, '多字符串')
         tab.addTab(protocolFrame, '自定义协议')
 
         rightLayout = QVBoxLayout()
