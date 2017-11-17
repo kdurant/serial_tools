@@ -48,6 +48,7 @@ class serialTop(SerialUI):
         self.hexSendRbtn.clicked.connect(self.editValidator)
         self.asciiSendRbtn.clicked.connect(self.editValidator)
         self.mutilString.dataReady[bytes].connect(self.sendData)
+        self.protocolFrame.dataReady[bytes].connect(self.sendData)
 
     @pyqtSlot()
     def openCom(self):
@@ -104,7 +105,8 @@ class serialTop(SerialUI):
         :return:
         '''
         try:
-            recvData = bytes(self.com.readAll())
+            # recvData = bytes(self.com.readAll())
+            recvData = bytes(self.com.read(65535))
             self.recvCnt += len(recvData)
             self.recvCntBar.setText('发送字节：' + str(self.recvCnt))
 

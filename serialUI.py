@@ -11,8 +11,8 @@ class SerialUI(QMainWindow):
     def __init__(self):
         super(SerialUI, self).__init__()
         try:
-            qss = open('serial.qss').read()
-            self.setStyleSheet(qss)
+            import qss
+            self.setStyleSheet(qss.qss)
         except:
             pass
 
@@ -31,13 +31,13 @@ class SerialUI(QMainWindow):
         recvData = self.recvdataUI()
         sendData = self.sendDataUI()
         self.mutilString = MutilString()
-        protocolFrame = ProtocalFrame()
+        self.protocolFrame = ProtocalFrame()
         # self.extendUI.hide()
 
         tab = QTabWidget()
         tab.addTab(sendData, '基本数据')
         tab.addTab(self.mutilString, '多字符串')
-        tab.addTab(protocolFrame, '自定义协议')
+        tab.addTab(self.protocolFrame, '自定义协议')
 
         rightLayout = QVBoxLayout()
         rightLayout.addWidget(serialInfo)

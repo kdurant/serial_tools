@@ -124,10 +124,12 @@ class MutilString(QWidget):
             QMessageBox.warning(self, '警告', '发送内容不能为空')
 
 class ProtocalFrame(QFrame):
+    dataReady = pyqtSignal(bytes)
     def __init__(self):
         super(ProtocalFrame, self).__init__()
         self.initUI()
         self.sendProtocalBtn.clicked.connect(self.prepareData)
+
     def initUI(self):
         self.hexModeRbtn = QRadioButton('HEX')
         self.hexModeRbtn.setChecked(True)
@@ -181,6 +183,8 @@ class ProtocalFrame(QFrame):
                     data += self.table.item(1, i).text().zfill(len*2)
 
         data += self.checkSum(data)
+        data = a2b_hex(data)
+        self.dataReady.emit(data)
 
 
     def checkSum(self, data):

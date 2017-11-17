@@ -1,3 +1,4 @@
+qss = '''
 QPushButton {
 background-color: #473C8B;
 border-style: outset;
@@ -127,3 +128,28 @@ image: url(images/rbtn_unchecked.png);
 QRadioButton::indicator:checked{
 image: url(images/rbtn_checked.png);
 }
+
+QTableView {
+        border: 1px solid rgb(111, 156, 207);
+        background: rgb(224, 238, 255);
+        gridline-color: rgb(111, 156, 207);
+}
+QTableView::item {
+        padding-left: 5px;
+        padding-right: 5px;
+        border: none;
+        background: white;
+        border-right: 1px solid rgb(111, 156, 207);
+        border-bottom: 1px solid rgb(111, 156, 207);
+}
+QTableView::item:selected {
+        background: rgba(255, 255, 255, 100);
+}
+QTableView::item:selected:!active {
+        color: rgb(65, 65, 65);
+}
+QTableView::indicator {
+        width: 20px;
+        height: 20px;
+}
+'''
