@@ -1,4 +1,8 @@
 # -*- coding:utf-8 -*-
+
+__version__ = 'v0.0.2'
+__autor__ = 'kdurant'
+
 # from PyQt5.QtCore import *
 # from PyQt5.QtGui import *
 # from PyQt5.QtWidgets import *
@@ -12,7 +16,7 @@ class serialTop(SerialUI):
     dataReady = pyqtSignal(bytes)
     def __init__(self):
         super(serialTop, self).__init__()
-        # self.createToolBar()
+        self.createToolBar()
         self.createStatusBar()
 
         self.com = QSerialPort()
@@ -226,7 +230,7 @@ class serialTop(SerialUI):
         self.aboutAction = QAction(QIcon('images/aboutTool.svg'), "about", self, triggered=self.aboutTool)
         toolbar = self.addToolBar('T')
         # new = QAction(QIcon("./images/new.png"), "new", self)
-        toolbar.addAction(self.highAction)
+        #toolbar.addAction(self.highAction)
         toolbar.addAction(self.aboutAction)
         toolbar.addAction(self.helpAction)
 

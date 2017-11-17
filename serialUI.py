@@ -1,9 +1,5 @@
 #-*- coding:utf-8 -*-
 # -*- coding:utf-8 -*-
-
-__version__ = 'v0.0.2'
-__autor__ = 'kdurant'
-
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
