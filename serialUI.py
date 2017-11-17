@@ -21,7 +21,7 @@ class SerialUI(QMainWindow):
         self.setWindowIcon(QIcon('images/serialIcon.svg'))
         self.initUI()
 
-        self.helpWidget = QWidget()
+        self.helpWidget = HelpWidget()
         self.helpWidget.hide()
 
     def initUI(self):
