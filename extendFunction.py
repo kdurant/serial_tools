@@ -138,7 +138,7 @@ class ProtocalFrame(QFrame):
         self.selectCheckComb = QComboBox()
         self.selectCheckComb.addItems(['异或', '累加和', 'CRC8', 'CRC16'])
 
-        self.table = QTableWidget(3, 4)
+        self.table = QTableWidget(3, 8)
         self.table.setHorizontalHeaderLabels(['Field1', '2', '3', '4'])
         self.table.setVerticalHeaderLabels(['长度(Byte)', '数据', '有效'])
 
@@ -222,36 +222,54 @@ class HelpWidget(QWidget):
     def initUI(self):
         tab = QTabWidget()
         tab.addTab(self.basicInfoUI(), '基本信息')
+        tab.addTab(self.asciiTableUI(), 'ascii码表')
 
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(tab)
         self.setLayout(mainLayout)
 
     def basicInfoUI(self):
-        self.imageLabel = QLabel()
-        self.imageLabel.setPixmap(QPixmap('images/level.png'))
+        imageLabel = QLabel()
+        imageLabel.setPixmap(QPixmap('images/level.png'))
         # self.imageLabel.setPixmap(QPixmap('images/level.png').scaled(QSize(960*0.7, 300*0.8)))  # 缩放label里的图片
-        self.levelInfoLabel = QLabel()
-        self.levelInfoLabel.setText(
+        levelInfoLabel = QLabel()
+        levelInfoLabel.setText(
                                     '1. USB转串口输出电平：正负5V\n'
                                     '2. MAX232芯片输出电平：正负5V\n'
 
         )
-        self.timeInfoLabel = QLabel()
-        self.timeInfoLabel.setText(
+        timeInfoLabel = QLabel()
+        timeInfoLabel.setText(
                                     '1. 波特率9600：0.104ms/bit, 1.04ms/Byte\n'
                                     '2. 波特率38400：0.026ms/bit, 0.26ms/Byte\n'
                                     '3. 波特率115200：8.68us/bit, 86.8us/Byte\n'
         )
 
         mainLayout = QVBoxLayout()
-        mainLayout.addWidget(self.imageLabel)
-        mainLayout.addWidget(self.levelInfoLabel)
-        mainLayout.addWidget(self.timeInfoLabel)
+        mainLayout.addWidget(imageLabel)
+        mainLayout.addWidget(levelInfoLabel)
+        mainLayout.addWidget(timeInfoLabel)
 
         frame = QFrame()
         frame.setLayout(mainLayout)
         return frame
+
+    def asciiTableUI(self):
+        asciiLabel = QLabel()
+        asciiLabel.setPixmap(QPixmap('images/ascii.png'))
+        # asciiLabel.setPixmap(QPixmap('images/ascii.png').scaled(QSize(1280*0.7, 851*0.7)))  # 缩放label里的图片
+
+        mainLayout = QVBoxLayout()
+        mainLayout.addWidget(asciiLabel)
+        frame = QFrame()
+        frame.setLayout(mainLayout)
+
+        s = QScrollArea(self)
+        s.setWidget(frame)
+        s.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        s.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        s.setWidgetResizable(True)
+        return s
 
 if __name__ == '__main__':
     import sys
