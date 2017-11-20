@@ -118,9 +118,13 @@ class serialTop(SerialUI):
         if len(file) == 0:
             return
         else:
-            data = open(file, 'rb').read()
-            data = data.decode('utf8')
-            self.dataReady.emit(data, False)
+            data = open(file, 'r', encoding='utf-8').read()
+            if self.hexSendRbtn.isChecked():
+                self.dataReady.emit(data, True)
+            else:
+                self.dataReady.emit(data, False)
+            # data = data.decode('utf8')
+            # self.dataReady.emit(data, False)
             self.sendCntBar.setText('发送字节：' + str(self.serialInfo.sendCnt))
 
 

@@ -134,7 +134,6 @@ class SerialUI(QMainWindow):
         self.loadFileEdit.setReadOnly(True)
         self.sendBtn = QPushButton('发送')
         self.sendFileBtn = QPushButton('发送文件')
-        self.sendFileBtn.setToolTip('文件只支持以ASCII码发送')
 
         hbox1 = QHBoxLayout()
         hbox1.addWidget(self.loadFileBtn)
