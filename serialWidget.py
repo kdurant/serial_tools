@@ -124,6 +124,9 @@ class SerialWidget(QWidget):
         :param data: 需要发送的数据
         :param sendMode: True，HEX模式发送; False, ASCII模式发送
         :return:
+
+        '12', HEX模式发送：b'\x12', 收到：b'\x12'
+              ASCII模式发送：b'12', 收到：b'12'
         '''
         '''
         ascii 方式发送 '34', HEX显示为 '33 34'; ascii显示为 '34'

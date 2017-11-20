@@ -49,23 +49,13 @@ class serialTop(SerialUI):
         发送 'ab' : 收到 b'\xab'
         :return:
         '''
-        recvData = recvData
-        self.recvCntBar.setText('发送字节：' + str(self.serialInfo.recvCnt))
-
-        if self.hexSendRbtn.isChecked():
-            if self.hexRecvRbtn.isChecked():
-                data = b2a_hex(recvData)
-                data = data.decode('utf8')
-            else:
-                data = b2a_hex(recvData)
-                data = data.decode('utf8')
-                data = ''.join([str(hex(ord(i)))[2:] for i in data])     # '34' -> '33 34'
+        self.recvCntBar.setText('发送字节：' + str(self.serialInfo.sendCnt))
+        if self.hexRecvRbtn.isChecked():
+            data = b2a_hex(recvData)
+            data = data.decode('utf8')
         else:
-            if self.hexRecvRbtn.isChecked():
-                data = b2a_hex(recvData)
-                data = data.decode('utf8')
-            else:
-                data = recvData.decode('utf8')
+            data = recvData
+            data = data.decode('utf8')
 
         if not self.pauseReceiveCb.isChecked():
             if self.autoWrapCb.isChecked():
