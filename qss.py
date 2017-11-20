@@ -151,4 +151,36 @@ QTableView::indicator {
         width: 20px;
         height: 20px;
 }
+
+QTabBar::tab {
+    border: none;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    color: white;
+    background: rgb(120, 170, 220);
+    height: 28px;
+    min-width: 85px;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+QTabBar::tab:hover {
+    background: rgb(0, 78, 161);
+}
+QTabBar::tab:selected {
+    color: white;
+    background: rgb(0, 78, 161);
+}
+
+QStatusBar {
+        background: rgb(187, 212, 238);
+        border: 1px solid rgb(111, 156, 207);
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+}
+QStatusBar::item {
+    border: none;
+    border-right: 1px solid rgb(111, 156, 207);
+}
 '''
