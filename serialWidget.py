@@ -5,8 +5,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtSerialPort import *
 from binascii import a2b_hex, b2a_hex
 
+
 class SerialWidget(QWidget):
-    serialDataReady = pyqtSignal()
+    serialDataReady = pyqtSignal(bytes)
+    serialStateChanged = pyqtSignal(bool)
     def __init__(self):
         super(SerialWidget, self).__init__()
         self.com = QSerialPort()
@@ -86,6 +88,7 @@ class SerialWidget(QWidget):
                 self.openBtn.setEnabled(False)
                 self.closeBtn.setEnabled(True)
                 self.serialStatus = True
+                self.serialStateChanged.emit(self.serialStatus)
         except:
             QMessageBox.critical(self, '打开失败', '该串口不存在或已被占用')
             return
@@ -106,6 +109,7 @@ class SerialWidget(QWidget):
             self.openBtn.setEnabled(True)
             self.closeBtn.setEnabled(False)
             self.serialStatus = False
+            self.serialStateChanged.emit(self.serialStatus)
 
             self.serialNumComb.setEnabled(True)
             self.serialBaudComb.setEnabled(True)
@@ -114,7 +118,7 @@ class SerialWidget(QWidget):
             self.serialStopComb.setEnabled(True)
             return
 
-    @pyqtSlot(bytes)
+    @pyqtSlot(str, bool)
     def sendData(self, data, sendMode=True):
         '''
         :param data: 需要发送的数据
@@ -160,6 +164,7 @@ class SerialWidget(QWidget):
             # recvData = bytes(self.com.readAll())
             recvData = bytes(self.com.read(65535))
             self.recvCnt += len(recvData)
+            self.serialDataReady.emit(recvData)
         except:
             pass
 

@@ -8,7 +8,7 @@ class MutilString(QWidget):
     '''
     可设置发送多条字符串
     '''
-    dataReady = pyqtSignal(bytes)
+    dataReady = pyqtSignal(str, bool)
     def __init__(self):
         super(MutilString, self).__init__()
         self.selCbList = []
@@ -105,8 +105,7 @@ class MutilString(QWidget):
         for i in range(0, 8):
             if self.selCbList[i].isChecked():
                 data = self.hexEditList[i].text()
-                data = a2b_hex(data)
-                self.dataReady.emit(data)
+                self.dataReady.emit(data, True)
                 QThread.msleep(int(self.strInterTimeEdit.text()))
         pass
 
@@ -116,15 +115,14 @@ class MutilString(QWidget):
         data = self.hexEditList[num].text()
         if data:
             if self.hexSendCb.isChecked():
-                data = a2b_hex(data)
+                self.dataReady.emit(data, True)
             else:
-                data = data.encode('utf8')
-            self.dataReady.emit(data)
+                self.dataReady.emit(data, False)
         else:
             QMessageBox.warning(self, '警告', '发送内容不能为空')
 
 class ProtocalFrame(QFrame):
-    dataReady = pyqtSignal(bytes)
+    dataReady = pyqtSignal(str, bool)
     def __init__(self):
         super(ProtocalFrame, self).__init__()
         self.initUI()
@@ -183,8 +181,7 @@ class ProtocalFrame(QFrame):
                     data += self.table.item(1, i).text().zfill(len*2)
 
         data += self.checkSum(data)
-        data = a2b_hex(data)
-        self.dataReady.emit(data)
+        self.dataReady.emit(data, True)
 
 
     def checkSum(self, data):

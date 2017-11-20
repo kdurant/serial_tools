@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtSerialPort import *
 
 from extendFunction import *
+from serialWidget import *
 
 class SerialUI(QMainWindow):
     def __init__(self):
@@ -25,7 +26,7 @@ class SerialUI(QMainWindow):
         self.helpWidget.hide()
 
     def initUI(self):
-        serialInfo = self.serialParaUI()
+        self.serialInfo = SerialWidget()
         recvSet = self.recvConfigUI()
         sendSet = self.sendConfigUI()
         recvData = self.recvdataUI()
@@ -40,7 +41,7 @@ class SerialUI(QMainWindow):
         tab.addTab(self.protocolFrame, '自定义协议')
 
         rightLayout = QVBoxLayout()
-        rightLayout.addWidget(serialInfo)
+        rightLayout.addWidget(self.serialInfo)
         rightLayout.addWidget(recvSet)
         rightLayout.addWidget(sendSet)
 
@@ -54,48 +55,10 @@ class SerialUI(QMainWindow):
         mainLayout.addLayout(rightLayout)
         mainLayout.addLayout(leftLayout)
         mainLayout.setStretchFactor(rightLayout, 1)
-        mainLayout.setStretchFactor(leftLayout, 4)
+        mainLayout.setStretchFactor(leftLayout, 3)
         widget = QWidget()
         widget.setLayout(mainLayout)
         self.setCentralWidget(widget)
-
-    def serialParaUI(self):
-        self.serialNumComb = QComboBox()
-        self.serialBaudComb = QComboBox()
-        self.serialBaudComb.addItems(['9600', '14400', '38400', '56000', '57600', '115200', '128000'])
-        self.serialBaudComb.setCurrentText('115200')
-        self.serialCheckComb = QComboBox()
-        self.serialCheckComb.addItems(['None'])
-        self.serialDataLenComb = QComboBox()
-        self.serialDataLenComb.addItems(['5', '6', '7', '8'])
-        self.serialDataLenComb.setCurrentText('8')
-        self.serialStopComb = QComboBox()
-        self.serialStopComb.addItems(['1', '2'])
-        self.openBtn = QPushButton('打开串口')
-        self.openBtn.setObjectName('openBtn')
-
-        self.closeBtn = QPushButton('关闭串口')
-        self.closeBtn.setEnabled(False)
-
-        formLayout = QFormLayout()
-        formLayout.addRow('串口号：', self.serialNumComb)
-        formLayout.addRow('波特率：', self.serialBaudComb)
-        formLayout.addRow('校验位：', self.serialCheckComb)
-        formLayout.addRow('数据位：', self.serialDataLenComb)
-        formLayout.addRow('停止位：', self.serialStopComb)
-
-        hbox = QHBoxLayout()
-        hbox.addWidget(self.openBtn)
-        hbox.addWidget(self.closeBtn)
-
-        mainLayout = QVBoxLayout()
-        mainLayout.addLayout(formLayout)
-        mainLayout.addLayout(hbox)
-
-        groupBox = QGroupBox('串口设置')
-        groupBox.setLayout(mainLayout)
-
-        return groupBox
 
     def recvConfigUI(self):
         self.hexRecvRbtn = QRadioButton('HEX')

@@ -8,7 +8,6 @@ border-color: #8B7355;
 font: bold 14px;
 min-width:2em;
 color:white;
-font-family:华文新魏;
 padding: 5px;
 }
 /*QPushButton:pressed {*/
