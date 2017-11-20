@@ -18,6 +18,7 @@ class serialTop(SerialUI):
         self.autoTimer = QTimer()
 
         self.signalSlot()
+        self.readConfigInfo()
 
     def signalSlot(self):
         self.serialInfo.serialDataReady[bytes].connect(self.anaylzeData)
@@ -178,6 +179,29 @@ class serialTop(SerialUI):
             self.helpWidget.show()
         else:
             self.helpWidget.hide()
+
+    def closeEvent(self, event):
+        self.saveConfigInfo()
+
+    def readConfigInfo(self):
+        try:
+            data = open('config.txt', 'r')
+            for line in data.readlines():
+                line = line.replace('\n', '')
+                select = line[22:23]
+                content = line[36:]
+                self.mutilString.selCbList[int(select)].setChecked(True)
+                self.mutilString.hexEditList[int(select)].setText(content)
+        except:
+            pass
+        pass
+
+    def saveConfigInfo(self):
+        data = open('config.txt', 'w')
+        for i in range(0, len(self.mutilString.selCbList)):
+            if self.mutilString.selCbList[i].isChecked():
+                data.write('select line number is %s, content is %s\n' % (str(i), self.mutilString.hexEditList[i].text()))
+        data.close()
 
     @pyqtSlot()
     def editValidator(self):
