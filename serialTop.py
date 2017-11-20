@@ -197,6 +197,8 @@ class serialTop(SerialUI):
 
     @pyqtSlot(bool)
     def serialStatus(self, status):
+        self.recvCntBar.setText('接收字节：' + str(self.serialInfo.recvCnt))
+        self.sendCntBar.setText('发送字节：' + str(self.serialInfo.sendCnt))
         if status:
             self.serialStatusBar.setText('串口状态：Open')
         else:

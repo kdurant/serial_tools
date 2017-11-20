@@ -108,6 +108,8 @@ class SerialWidget(QWidget):
             self.com.close()
             self.openBtn.setEnabled(True)
             self.closeBtn.setEnabled(False)
+            self.sendCnt = 0
+            self.recvCnt = 0
             self.serialStatus = False
             self.serialStateChanged.emit(self.serialStatus)
 
