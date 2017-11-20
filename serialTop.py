@@ -111,6 +111,7 @@ class serialTop(SerialUI):
                                                           "All Files (*)")  # 设置文件扩展名过滤,注意用双分号间隔
 
         self.loadFileEdit.setText(file[0])
+        self.autoWrapCb.setChecked(False)
 
     @pyqtSlot()
     def getFileData(self):

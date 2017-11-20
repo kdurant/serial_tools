@@ -67,7 +67,6 @@ class SerialUI(QMainWindow):
 
         self.writeDataToFileCb = QCheckBox('接受数据写入文件')
         self.autoWrapCb = QCheckBox('自动换行')
-        self.autoWrapCb.setChecked(True)
         self.pauseReceiveCb = QCheckBox('暂停接收')
         self.saveRecvBtn = QPushButton('保存数据')
         self.saveRecvBtn.setToolTip('保存当前接受数据区的数据')
@@ -117,6 +116,7 @@ class SerialUI(QMainWindow):
 
     def recvdataUI(self):
         self.recvText = QTextEdit()
+        self.recvText.setReadOnly(True)
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.recvText)
