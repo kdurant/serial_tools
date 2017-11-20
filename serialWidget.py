@@ -140,7 +140,11 @@ class SerialWidget(QWidget):
         if sendMode:
             data = data.replace(' ', '')
             if len(data) % 2 == 0:
-                data = a2b_hex(data)
+                try:
+                    data = a2b_hex(data)
+                except ValueError:
+                    QMessageBox.critical(self, '警告', 'HEX模式不能发送非ASCII字符')
+                    return 
             else:
                 QMessageBox.warning(self, '警告', '十六进制数不是偶数个')
                 return

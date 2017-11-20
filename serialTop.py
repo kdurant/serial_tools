@@ -38,18 +38,7 @@ class serialTop(SerialUI):
 
     @pyqtSlot(bytes)
     def anaylzeData(self, recvData):
-        '''
-        当以非HEX方式发送数据时：
-        发送 '12' : 收到的是 b'1', b'2'
-        发送 '中文' : 收到的是 b'\xe4\xb8\xad', b'\xe6\x96\x87'
-        可得出结论，发送数据为 s.encode('utf')
-        接收到数据时，recv_s.decode('utf8')即可正确显示
-
-        当以HEX方式发送数据时：
-        发送 'ab' : 收到 b'\xab'
-        :return:
-        '''
-        self.recvCntBar.setText('发送字节：' + str(self.serialInfo.sendCnt))
+        self.recvCntBar.setText('接收字节：' + str(self.serialInfo.recvCnt))
         if self.hexRecvRbtn.isChecked():
             data = b2a_hex(recvData)
             data = data.decode('utf8')
@@ -77,6 +66,7 @@ class serialTop(SerialUI):
             self.dataReady.emit(data , True)
         else:
             self.dataReady.emit(data, False)
+        self.sendCntBar.setText('发送字节：' + str(self.serialInfo.sendCnt))
 
     @pyqtSlot()
     def clearRecvData(self):
@@ -84,7 +74,7 @@ class serialTop(SerialUI):
         self.serialInfo.recvCnt = 0
         self.serialInfo.sendCnt = 0
         self.sendCntBar.setText('发送字节：0')
-        self.recvCntBar.setText('发送字节：0')
+        self.recvCntBar.setText('接收字节：0')
 
     @pyqtSlot()
     def saveRecvData(self):
@@ -131,6 +121,7 @@ class serialTop(SerialUI):
             data = open(file, 'rb').read()
             data = data.decode('utf8')
             self.dataReady.emit(data, False)
+            self.sendCntBar.setText('发送字节：' + str(self.serialInfo.sendCnt))
 
 
     def showExtendUI(self):
