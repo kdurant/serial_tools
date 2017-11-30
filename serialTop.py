@@ -4,7 +4,6 @@ __version__ = 'v0.1.0'
 __autor__ = 'kdurant'
 
 import os
-from binascii import a2b_hex, b2a_hex
 from serialUI import *
 from extendFunction import *
 

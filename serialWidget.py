@@ -1,9 +1,9 @@
 #-*- coding:utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtSerialPort import *
-from binascii import a2b_hex, b2a_hex
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QMessageBox, QComboBox, QApplication, \
+        QFormLayout, QGroupBox
+from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
+from binascii import a2b_hex
 
 
 class SerialWidget(QWidget):

@@ -1,9 +1,6 @@
 #-*- coding:utf-8 -*-
-# -*- coding:utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtSerialPort import *
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QStatusBar
 
 from extendFunction import *
 from serialWidget import *

@@ -1,7 +1,9 @@
 #-*- coding:utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt5.QtCore import pyqtSignal, QTimer, Qt, QRegExp, pyqtSlot, QThread
+from PyQt5.QtGui import QRegExpValidator, QPixmap
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QCheckBox, QLineEdit, QPushButton, QLabel, \
+    QScrollArea, QFrame, QRadioButton, QMessageBox, QComboBox, QTableWidget, QTableWidgetItem, QTabWidget, QApplication
+
 from binascii import a2b_hex, b2a_hex
 
 class MutilString(QWidget):
