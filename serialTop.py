@@ -38,12 +38,24 @@ class serialTop(SerialUI):
     @pyqtSlot(bytes)
     def anaylzeData(self, recvData):
         self.recvCntBar.setText('接收字节：' + str(self.serialInfo.recvCnt))
+        '''
+        16进制发送 ab，收到b'\xab'
+            16进制显示：ab
+            ASCII显示:
+        ASCII 发送 ab，收到b'ab'
+            HEX显示： 6162
+            ascii显示： ab
+        '''
         if self.hexRecvRbtn.isChecked():
             data = b2a_hex(recvData)
             data = data.decode('utf8')
         else:
-            data = recvData
-            data = data.decode('utf8')
+            # 混合模式的显示没有处理好
+            try:
+                data = recvData
+                data = data.decode('utf8')
+            except:
+                pass
 
         if not self.pauseReceiveCb.isChecked():
             if self.autoWrapCb.isChecked():
