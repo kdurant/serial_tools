@@ -45,8 +45,8 @@ class SerialUI(QMainWindow):
         leftLayout = QVBoxLayout()
         leftLayout.addWidget(recvData)
         leftLayout.addWidget(tab)
-        leftLayout.setStretchFactor(recvData, 3)
-        leftLayout.setStretchFactor(tab, 2)
+        leftLayout.setStretchFactor(recvData, 1)
+        leftLayout.setStretchFactor(tab, 1)
 
         mainLayout = QHBoxLayout()
         mainLayout.addLayout(rightLayout)
@@ -126,6 +126,7 @@ class SerialUI(QMainWindow):
 
     def sendDataUI(self):
         self.sendEdit = QLineEdit()
+        label = QLabel('info')
         self.sendEdit.setToolTip('HEX模式时，发送的数据不包括空格')
         self.sendEdit.setValidator(QRegExpValidator(QRegExp("[a-fA-F0-9 ]+$")))
         self.loadFileBtn = QPushButton('选择文件')
@@ -144,6 +145,7 @@ class SerialUI(QMainWindow):
         vbox.addWidget(self.sendBtn)
 
         mainLayout = QVBoxLayout()
+        mainLayout.addWidget(label)
         mainLayout.addLayout(vbox)
         mainLayout.addLayout(hbox1)
 
