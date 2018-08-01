@@ -59,7 +59,9 @@ class SerialUI(QMainWindow):
 
     def recvConfigUI(self):
         self.hexRecvRbtn = QRadioButton('HEX')
+        self.hexRecvRbtn.setToolTip('接受数据区的数据转换为HEX显示')
         self.asciiRecvRbtn = QRadioButton('ASCII')
+        self.asciiRecvRbtn.setToolTip('接受数据区的数据转换为ASCII显示')
         self.hexRecvRbtn.setChecked(True)
 
         self.writeDataToFileCb = QCheckBox('接受数据写入文件')

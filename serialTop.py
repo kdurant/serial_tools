@@ -6,6 +6,7 @@ __autor__ = 'kdurant'
 import os
 from serialUI import *
 from extendFunction import *
+from PyQt5.QtWidgets import QFileDialog
 
 class serialTop(SerialUI):
     dataReady = pyqtSignal(str, bool)
@@ -116,10 +117,7 @@ class serialTop(SerialUI):
 
     @pyqtSlot()
     def selectFile(self):
-        file = QFileDialog.getOpenFileName(self,
-                                                          "选取文件",
-                                                          os.getcwd(),
-                                                          "All Files (*)")  # 设置文件扩展名过滤,注意用双分号间隔
+        file = QFileDialog.getOpenFileName(self, "选取文件", os.getcwd(), "All Files (*)")  # 设置文件扩展名过滤,注意用双分号间隔
 
         self.loadFileEdit.setText(file[0])
         self.autoWrapCb.setChecked(False)
